@@ -21,9 +21,21 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
+  <div class="field">
+    <%# f.radio_button :role, "project_manager" %>
+    <%# f.label :role, "Project Manager" %><br />
+  </div>
+
+  <div class="field">
+    <%= f.label :role, "Select User Role " %>
+    <%= f.select :role, ['super_admin', 'project_manager', 'qa', 'developer'] %><br />
+  </div>
+
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>
 <% end %>
+
+<h1>Bla Bla Bla</h1>
 
 <%= render "devise/shared/links" %>

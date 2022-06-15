@@ -1,0 +1,17 @@
+<h1>This is Index Page</h1>
+
+<%# Check if signed in, then display contents of current user, else display page to sign in%>
+
+<%= @user.email %>
+<%= @user.role %>
+<% if @user.role == "project_manager" %>
+  <h1>GOOOOOOOOOD</h1>
+  <% end %>
+<h1>Welcome to Bugzilla</h1>
+<p>You can login as a Project Manager, QA, or a developer</p>
+<p>To login as a Super Admin <%= link_to "click here", new_user_session_path %> </p>
+<p>To login as a Project Manager <%= link_to "click here", new_user_session_path %> </p>
+<p>To login as a QA <%= link_to "click here", new_user_session_path %> </p>
+<p>To login as a Developer <%= link_to "click here", new_user_session_path %> </p>
+
+<p><%= link_to "logout", destroy_user_session_path, method: :delete %></p>
