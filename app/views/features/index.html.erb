@@ -1,0 +1,43 @@
+<h1 class="mt-4 text-center">All Features</h1>
+<hr />
+<% if policy(Feature).index? %>
+  <h5 class="container">
+    <%= link_to "Create a feature", new_project_feature_path, class:
+    "btn btn-primary" %>
+  </h5>
+<% end %>
+<br />
+
+<div class="card mb-4">
+  <div class="card-header">
+    <i class="fas fa-table me-1"></i>
+    All Features
+  </div>
+
+  <div class="card-body">
+    <table id="datatablesSimple">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Feature Title</th>
+          <th>Comment</th>
+          <th>Feature Assigned to</th>
+          <th>Feature Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% count = 0 %> <% @features.each do |feature| %>
+
+        <tr>
+          <td><%= count = count+1 %></td>
+          <td><%= feature.title %></td>
+          <td><%= feature.comment %></td>
+          <td><% temp = User.find(feature.user_id) %>
+          <%= temp.email %></td>
+          <td><%= feature.status %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

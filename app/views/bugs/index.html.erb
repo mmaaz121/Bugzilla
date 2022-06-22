@@ -1,0 +1,43 @@
+<h1 class="mt-4 text-center">All Bugs</h1>
+<hr />
+<% if policy(Bug).index? %>
+  <h5 class="container">
+    <%= link_to "Create a bug", new_project_bug_path, class:
+    "btn btn-primary" %>
+  </h5>
+<% end %>
+<br />
+
+<div class="card mb-4">
+  <div class="card-header">
+    <i class="fas fa-table me-1"></i>
+    All Bugs
+  </div>
+
+  <div class="card-body">
+    <table id="datatablesSimple">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Bug Title</th>
+          <th>Comment</th>
+          <th>Bug Assigned to</th>
+          <th>Bug Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% count = 0 %> <% @bugs.each do |bug| %>
+
+        <tr>
+          <td><%= count = count+1 %></td>
+          <td><%# link_to bug.title, project_bug_path(id: bug) %><%= bug.title %></td>
+          <td><%= bug.comment %></td>
+          <td><% temp = User.find(bug.user_id) %>
+          <%= temp.email %></td>
+          <td><%= bug.status %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

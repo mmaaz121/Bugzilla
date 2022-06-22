@@ -1,0 +1,83 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card shadow-lg border-0 rounded-lg mt-5">
+        <div class="card-header"><h3 class="text-center font-weight-light my-4">Edit Bug</h3></div>
+          <div class="card-body">
+            <%= form_with model: ([@project, @bug]) do |form| %>
+              <% if current_user.role != "developer" %>
+                <div>
+                  <%= form.label :title %><br>
+                  <%= form.text_field :title %>
+                  <% @bug.errors.full_messages_for(:title).each do |message| %>
+                    <div><%= message %></div>
+                  <% end %>
+                </div>
+
+                <div>
+                  <%= form.label :comment %><br>
+                  <%= form.text_area :comment %><br>
+                  <% @bug.errors.full_messages_for(:comment).each do |message| %>
+                    <div><%= message %></div>
+                  <% end %>
+                </div>
+
+                <% arr = Array.new %>
+                <% @users.each do |u| %>
+                  <% if u.role == "developer" %>
+                    <% arr.push(u.email) %>
+                  <% end %>
+                <% end %>
+
+                <div class="field">
+                  <%= form.label :user_id, "Bug Assigned To " %>
+                  <%= form.select :user_id, arr %><br />
+                </div>
+              <% end %>
+                <% if current_user.role == "developer" %>
+                  <%= form.hidden_field :title, value: @bug.title %>
+                  <%= form.hidden_field :comment, value: @bug.comment %>
+                  <%= form.hidden_field :user_id, value: current_user.email %>
+
+                  <% if @bug.status != "fixed" %>
+                    <% if @bug.status == "new_bug" %>
+                      <div class="field">
+                        <%= form.label :status, "Bug Status " %>
+                        <%= form.select :status, ["new_bug", "in_progress"] %><br />
+                      </div>
+                    <% elsif @bug.status == "in_progress" %>
+                      <div class="field">
+                        <%= form.label :status, "Bug Status " %>
+                        <%= form.select :status, ["in_progress", "in_review"] %><br />
+                      </div>
+                    <% end %>
+                  <% else %>
+                    <div class="field">
+                      <%= form.label :status, "Bug Status: "+ @bug.status %>
+                    </div>
+                  <% end %>
+                <% end %>
+
+                <% if current_user.role == "qa" %>
+                  <% if @bug.status == "in_review"%>
+                    <div class="field">
+                      <%= form.label :status, "Bug Status " %>
+                      <%= form.select :status, ["in_review", "fixed"] %><br />
+                    </div>
+                  <% else %>
+                    <div class="field">
+                      <%= form.label :status, "Bug Status: "+ @bug.status %>
+                    </div>
+                  <% end %>
+                <% end %>
+
+                <div>
+                  <%= form.submit "Update Bug", class: "btn btn-dark" %>
+                </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

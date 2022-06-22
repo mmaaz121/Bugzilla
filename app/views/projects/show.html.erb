@@ -1,0 +1,142 @@
+
+  <h1 class="mt-4 text-center"><%= @project.title %></h1>
+  <hr />
+  <% if policy(Project).show? %>
+    <div class="d-flex justify-content-end">
+
+      <%= link_to "Edit Project", edit_project_path, class: "btn btn-warning" %>
+      &nbsp;&nbsp;&nbsp;
+      <%= button_to "Delete Project", project_path, method: :delete, class: "btn btn-danger" %>
+      
+    </div>
+    <% end %>
+  <br />
+  <div class="card mb-4">
+    <div class="card-header">
+      <i class="fas fa-table me-1"></i>
+      Project Info
+    </div>
+  <div class="card-body">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+        
+          <th>Project Title</th>
+          <th>Project Description</th>
+          <th>Assigned QAs</th>
+          <th>Assigned Developers</th>
+        </tr>
+      </thead>
+      <tbody>
+         
+
+        <tr>
+          
+          <td><%= @project.title %></td>
+          <td><%= @project.description %></td>
+          <td><table><tr><td><% @users.each do |u| %>
+            <% if u.role == "qa" %>
+              <%= u.email %>
+              <%# button_to "Remove", p_path(remove_user: u), method: :post %> <br>
+            <% end %>
+          <% end %></td></tr></table></td>
+
+          <td><table><tr><td><% @users.each do |u| %>
+            <% if u.role == "developer" %>
+              <%= u.email %>
+              <%# button_to "Remove", p_path(remove_user: u), method: :post %> <br>
+            <% end %>
+          <% end %></td></tr></table></td>
+          
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+  </div>
+
+  <% if policy(Project).index? %>
+  <div class="card mb-4">
+    <div class="card-header">
+      <i class="fas fa-table me-1"></i>
+      Available Users
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+          
+            <th>Id</th>
+            <th>User</th>
+            <th>User Role</th>
+            <% if policy(Project).index? %>
+              <th>Action</th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+           
+  
+          
+            <% count = 0 %> <% @available_users.each do |u| %>
+            <% if u.role == "qa" or u.role == "developer" %>
+            <tr>
+              <td><%= count = count+1 %></td>
+              <td><%= u.email %></td>
+              <td><%= u.role %></td>
+              
+                <td><%= button_to "Add", p_path(assign_user: u), method: :post, class: "btn btn-success" %></td>
+              
+              
+            </tr>
+            <% end %>
+            <% end %>
+  
+        </tbody>
+      </table>
+    </div>
+    </div>
+    <% end %>
+
+
+
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <i class="fas fa-table me-1"></i>
+      Assigned Users
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+          
+            <th>Id</th>
+            <th>User</th>
+            <th>User Role</th>
+            <% if policy(Project).index? %>
+              <th>Action</th>
+            <% end %>
+          </tr>
+        </thead>
+        <tbody>
+           
+  
+          
+            <% count = 0 %> <% @users.each do |u| %>
+            <% if u.role == "qa" or u.role == "developer" %>
+            <tr>
+              <td><%= count = count+1 %></td>
+              <td><%= u.email %></td>
+              <td><%= u.role %></td>
+              <% if policy(Project).index? %>
+                <td><%= button_to "Remove", p_path(remove_user: u), method: :post, class: "btn btn-danger" %></td>
+              <% end %>
+            </tr>
+            <% end %>
+            <% end %>
+  
+        </tbody>
+      </table>
+    </div>
+    </div>

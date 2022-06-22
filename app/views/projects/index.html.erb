@@ -1,17 +1,38 @@
-<h1>This is Index Page</h1>
+<h1 class="mt-4 text-center">All Projects</h1>
+<hr />
 
-<%# Check if signed in, then display contents of current user, else display page to sign in%>
+<% if policy(Project).index? %>
+<h5 class="container">
+  <%= link_to "Create a new project", new_project_path, class:
+  "btn btn-primary" %>
+</h5>
+<% end%>
+<br />
+<div class="card mb-4">
+  <div class="card-header">
+    <i class="fas fa-table me-1"></i>
+    All Projects
+  </div>
 
-<%= @user.email %>
-<%= @user.role %>
-<% if @user.role == "project_manager" %>
-  <h1>GOOOOOOOOOD</h1>
-  <% end %>
-<h1>Welcome to Bugzilla</h1>
-<p>You can login as a Project Manager, QA, or a developer</p>
-<p>To login as a Super Admin <%= link_to "click here", new_user_session_path %> </p>
-<p>To login as a Project Manager <%= link_to "click here", new_user_session_path %> </p>
-<p>To login as a QA <%= link_to "click here", new_user_session_path %> </p>
-<p>To login as a Developer <%= link_to "click here", new_user_session_path %> </p>
+  <div class="card-body">
+    <table id="datatablesSimple">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Project Title</th>
+          <th>Project Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% count = 0 %> <% @projects.each do |p| %>
 
-<p><%= link_to "logout", destroy_user_session_path, method: :delete %></p>
+        <tr>
+          <td><%= count = count+1 %></td>
+          <td><%# link_to p.title, project_path(p) %><%= p.title %></td>
+          <td><%= p.description %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

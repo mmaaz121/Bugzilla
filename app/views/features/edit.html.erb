@@ -1,0 +1,82 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card shadow-lg border-0 rounded-lg mt-5">
+        <div class="card-header"><h3 class="text-center font-weight-light my-4">Edit Feature</h3></div>
+          <div class="card-body">
+            <%= form_with model: ([@project, @feature]) do |form| %>
+              <% if current_user.role != "developer" %>
+                <div>
+                  <%= form.label :title %><br>
+                  <%= form.text_field :title %>
+                  <% @feature.errors.full_messages_for(:title).each do |message| %>
+                    <div><%= message %></div>
+                  <% end %>
+                </div>
+
+                <div>
+                  <%= form.label :comment %><br>
+                  <%= form.text_area :comment %><br>
+                  <% @feature.errors.full_messages_for(:comment).each do |message| %>
+                    <div><%= message %></div>
+                  <% end %>
+                </div>
+
+                <% arr = Array.new %>
+                <% @users.each do |u| %>
+                  <% if u.role == "developer" %>
+                    <% arr.push(u.email) %>
+                  <% end %>
+                <% end %>
+
+                <div class="field">
+                  <%= form.label :user_id, "Feature Assigned To " %>
+                  <%= form.select :user_id, arr %><br />
+                </div>
+              <% end %>
+                <% if current_user.role == "developer" %>
+                  <%= form.hidden_field :title, value: @feature.title %>
+                  <%= form.hidden_field :comment, value: @feature.comment %>
+                  <%= form.hidden_field :user_id, value: current_user.email %>
+
+                  <% if @feature.status != "complete" %>
+                    <% if @feature.status == "new_feature" %>
+                      <div class="field">
+                        <%= form.label :status, "Feature Status " %>
+                        <%= form.select :status, ["new_feature", "in_progress"] %><br />
+                      </div>
+                    <% elsif @feature.status == "in_progress" %>
+                      <div class="field">
+                        <%= form.label :status, "Feature Status " %>
+                        <%= form.select :status, ["in_progress", "in_review"] %><br />
+                      </div>
+                    <% end %>
+                  <% else %>
+                    <div class="field">
+                      <%= form.label :status, "Feature Status: "+ @feature.status %>
+                    </div>
+                  <% end %>
+                <% end %>
+
+                <% if current_user.role == "qa" %>
+                  <% if @feature.status == "in_review"%>
+                    <div class="field">
+                      <%= form.label :status, "Feature Status " %>
+                      <%= form.select :status, ["in_review", "complete"] %><br />
+                    </div>
+                  <% else %>
+                    <div class="field">
+                      <%= form.label :status, "Feature Status: "+ @feature.status %>
+                    </div>
+                  <% end %>
+                <% end %>
+                <div>
+                  <%= form.submit "Update Feature", class: "btn btn-dark" %>
+                </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

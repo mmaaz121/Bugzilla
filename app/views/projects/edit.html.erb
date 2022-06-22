@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card shadow-lg border-0 rounded-lg mt-5">
+        <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Project</h3></div>
+          <div class="card-body">
+            <%= form_with model: @project do |form| %>
+              <div>
+                <%= form.label :title %><br />
+                <%= form.text_field :title %>
+                <% @project.errors.full_messages_for(:title).each do |message| %>
+                <div><%= message %></div>
+                <% end %>
+              </div>
+
+              <div>
+                <%= form.label :description %><br />
+                <%= form.text_area :description %><br />
+                <% @project.errors.full_messages_for(:description).each do |message| %>
+                <div><%= message %></div>
+                <% end %>
+              </div>
+
+              <div><%= form.submit "Update Project", class: "btn btn-dark" %></div>
+            <% end %>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

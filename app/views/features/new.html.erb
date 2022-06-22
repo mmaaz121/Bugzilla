@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="card shadow-lg border-0 rounded-lg mt-5">
+        <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Feature</h3></div>
+          <div class="card-body">
+            <%= form_with model: ([@project, @feature]) do |form| %>
+              <div>
+                <%= form.label :title %><br>
+                <%= form.text_field :title %>
+                <% @feature.errors.full_messages_for(:title).each do |message| %>
+                  <div><%= message %></div>
+                <% end %>
+              </div>
+
+              <div>
+                <%= form.label :comment %><br>
+                <%= form.text_area :comment %><br>
+                <% @feature.errors.full_messages_for(:comment).each do |message| %>
+                  <div><%= message %></div>
+                <% end %>
+              </div>
+
+              <% arr = Array.new %>
+              <% @users.each do |u| %>
+                <% if u.role == "developer" %>
+                  <% arr.push(u.email) %>
+                <% end %>
+              <% end %>
+
+              <div class="field">
+                <%= form.label :user_id, "Feature Assigned To " %>
+                <%= form.select :user_id, arr %><br />
+              </div>
+
+              <div>
+                <%= form.submit "Create Feature", class: "btn btn-dark" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
