@@ -1,39 +1,39 @@
 <h1 class="mt-4 text-center"><%= @bug.title %></h1>
-  <hr />
-  <% if policy(Bug).show? or @bug.status != "fixed" %>
-    <div class="d-flex justify-content-end">
-      <%= link_to "Edit Bug", edit_project_bug_path, class: "btn btn-warning" %>
-        &nbsp;&nbsp;&nbsp;
-      <% if policy(Bug).show? %>
-        <%= button_to "Delete Bug", project_bug_path, method: :delete, class: "btn btn-danger" %>
-      <% end %>
-    </div>
-  <% end %>
-  <br />
-  <div class="card mb-4">
-    <div class="card-header">
-      <i class="fas fa-table me-1"></i>
-      Bug Info
-    </div>
-    <div class="card-body">
-      <table class="table">
-        <thead class="thead-dark">
-          <tr>
-            <th>Bug Title</th>
-            <th>Comment</th>
-            <th>Bug Assigned to</th>
-            <th>Bug Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><%= @bug.title %></td>
-            <td><%= @bug.comment %></td>
-            <td><% temp = User.find(@bug.user_id) %>
-            <%= temp.email %></td>
-            <td><%= @bug.status %></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<hr />
+<% if policy(Bug).show? or @bug.status != "fixed" %>
+  <div class="d-flex justify-content-end">
+    <%= link_to "Edit Bug", edit_project_bug_path, class: "btn btn-warning" %>
+      &nbsp;&nbsp;&nbsp;
+    <% if policy(Bug).show? %>
+      <%= button_to "Delete Bug", project_bug_path, method: :delete, class: "btn btn-danger" %>
+    <% end %>
   </div>
+<% end %>
+<br />
+<div class="card mb-4">
+  <div class="card-header">
+    <i class="fas fa-table me-1"></i>
+    Bug Info
+  </div>
+  <div class="card-body">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th>Bug Title</th>
+          <th>Comment</th>
+          <th>Bug Assigned to</th>
+          <th>Bug Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><%= @bug.title %></td>
+          <td><%= @bug.comment %></td>
+          <td><% temp = User.find(@bug.user_id) %>
+          <%= temp.email %></td>
+          <td><%= @bug.status %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

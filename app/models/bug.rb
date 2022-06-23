@@ -12,4 +12,18 @@ class Bug < ApplicationRecord
 
   validates :title, presence: true
   validates :comment, presence: true, length: { minimum: 10 }
+
+  validate :assigned_user_should_be_valid
+
+
+  private
+  def assigned_user_should_be_valid
+    @project = Project.find(self.project_id)
+    @project.users.each do |user|
+      if user.id == self.user_id and user.role == "developer"
+        return true
+      end
+    end
+    errors.add(:user_id, "User assigned on a project must be valid")
+  end
 end
