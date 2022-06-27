@@ -7,11 +7,10 @@ Rails.application.routes.draw do
     resources :features
   end
 
-  resources :assigns
+  # resources :assigns
   # root "projects#index"
 
-  post 'projects/:id', to: 'projects#show', as: :p
-  # delete 'projects/:id', to: 'projects#destroy'
+  post 'projects/:id', to: 'projects#show_button', as: :p
 
   devise_scope :user do
     # get 'sign_in', to: 'devise/sessions#new'

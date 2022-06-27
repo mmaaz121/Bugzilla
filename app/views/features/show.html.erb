@@ -29,8 +29,7 @@
         <tr>
           <td><%= @feature.title %></td>
           <td><%= @feature.comment %></td>
-          <td><% temp = User.find(@feature.user_id) %>
-          <%= temp.email %></td>
+          <td><%= @feature.user.email %></td>
           <td><%= @feature.status %></td>
         </tr>
       </tbody>

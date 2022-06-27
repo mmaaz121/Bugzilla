@@ -1,0 +1,134 @@
+<body class="sb-nav-fixed">
+  <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <!-- Navbar Brand-->
+    <a class="navbar-brand ps-3" href="#">Bugzilla</a>
+    <!-- Sidebar Toggle-->
+    <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+        class="fas fa-bars"></i></button>
+    <!-- Navbar Search-->
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+
+    </form>
+    <!-- Navbar-->
+    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+
+          <% if current_user.image.attached? %>
+            <%= image_tag(current_user.image, class: "img-profile rounded-circle" , height: "40" ) %>
+              <% else %>
+                <i class="fas fa-user fa-fw"></i>
+                <% end %>
+        </a>
+
+
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+          <li>
+            <%= link_to "Edit Profile" , edit_user_registration_path, class: "dropdown-item" %>
+          </li>
+          <li>
+            <%= link_to "Logout" , destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+      <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+          <div class="nav">
+            <a class="nav-link" href="/projects">
+              <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+              Dashboard
+            </a>
+
+            <% if @project and !@new_project_flag %>
+              <%= link_to project_path(@project), class: "nav-link" do %>
+                <div class="sb-nav-link-icon"><i class="fa-solid fa-diagram-project"></i></div>
+                <%= @project.title %>
+                  <% end %>
+                    <% end %>
+
+                      <% if @project and !@bug and !@feature and !@new_project_flag %>
+
+                        <%= link_to project_bugs_path(@project), class: "nav-link" do %>
+                          <div class="sb-nav-link-icon"><i class="fa-solid fa-bug"></i></div>Bugs
+                          <% end %>
+
+                            <%= link_to project_features_path(@project), class: "nav-link" do %>
+                              <div class="sb-nav-link-icon"><i class="fa-solid fa-repeat"></i></div>
+                              Features
+                              <% end %>
+                                <% end %>
+
+                                  <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseLayouts" aria-expanded="false"
+                                    aria-controls="collapseLayouts">
+                                    <div class="sb-nav-link-icon">
+                                      <% if @bugs or @bug %>
+                                        <i class="fa-solid fa-list"></i></i>
+                                        <% elsif @feature or @features %>
+                                          <i class="fa-solid fa-list"></i>
+                                          <% elsif @projects %>
+                                            <i class="fa-solid fa-diagram-project"></i>
+                                            <% end %>
+                                    </div>
+
+                                    <% if @bug || @bugs %>
+                                      Bugs List
+
+                                      <% elsif @feature or @features %>
+                                        Features List
+
+                                        <% elsif @projects %>
+                                          Projects
+
+                                          <% elsif @project %>
+                                            <%# @project.title %>
+                                              <% end %>
+
+
+                                                <% if !@project or @bugs or @features %>
+                                                  <div class="sb-sidenav-collapse-arrow"><i
+                                                      class="fas fa-angle-down"></i></div>
+                                                  <% end %>
+                                  </a>
+
+                                  <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
+                                    data-bs-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+
+                                      <% if @projects %>
+                                        <% @projects.each do |p| %>
+                                          <%= link_to p.title, project_path(p), class: "nav-link" %>
+                                            <% end %>
+                                              <% end %>
+
+                                                <% if @bugs %>
+                                                  <% @bugs.each do |b| %>
+                                                    <%= link_to b.title, project_bug_path(id: b), class: "nav-link" %>
+                                                      <% end %>
+                                                        <% end %>
+
+                                                          <% if @features %>
+                                                            <% @features.each do |f| %>
+                                                              <%= link_to f.title, project_feature_path(id: f),
+                                                                class: "nav-link" %>
+                                                                <% end %>
+                                                                  <% end %>
+                                    </nav>
+                                  </div>
+          </div>
+        </div>
+        <div class="sb-sidenav-footer">
+          <div class="small">Logged in as:</div>
+          <%= current_user.email %>
+        </div>
+      </nav>
+    </div>
+    <div id="layoutSidenav_content">
+      <main>
+        <div class="container-fluid px-4">
+          <h1 class="mt-4 text-center"></h1>

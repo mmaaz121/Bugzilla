@@ -1,12 +1,12 @@
 <h1 class="mt-4 text-center">All Projects</h1>
 <hr />
 
-<% if policy(Project).index? %>
+<% if policy(Project).show? %>
 <h5 class="container">
   <%= link_to "Create a new project", new_project_path, class:
   "btn btn-primary" %>
 </h5>
-<% end%>
+<% end %>
 <br />
 <div class="card mb-4">
   <div class="card-header">

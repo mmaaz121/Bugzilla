@@ -26,14 +26,13 @@
         </tr>
       </thead>
       <tbody>
-        <% count = 0 %> <% @bugs.each do |bug| %>
+        <% @bugs.each_with_index do |bug, index| %>
 
         <tr>
-          <td><%= count = count+1 %></td>
-          <td><%# link_to bug.title, project_bug_path(id: bug) %><%= bug.title %></td>
+          <td><%= index %></td>
+          <td><%= bug.title %></td>
           <td><%= bug.comment %></td>
-          <td><% temp = User.find(bug.user_id) %>
-          <%= temp.email %></td>
+          <td><%= bug.user.email %></td>
           <td><%= bug.status %></td>
         </tr>
         <% end %>

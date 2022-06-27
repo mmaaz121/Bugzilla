@@ -7,18 +7,23 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def index?
-    @user.role == 'project_manager'
+    user.project_manager?
   end
 
   def show?
-    @user.role == 'project_manager'
+    index?
+    # user.projects.include? record
   end
 
   def new?
-    @user.role == 'project_manager'
+    index?
   end
 
   def edit?
-    @user.role == 'project_manager'
+    index?
+  end
+
+  def show_button?
+    index?
   end
 end

@@ -29,8 +29,7 @@
         <tr>
           <td><%= @bug.title %></td>
           <td><%= @bug.comment %></td>
-          <td><% temp = User.find(@bug.user_id) %>
-          <%= temp.email %></td>
+          <td><%= @bug.user.email %></td>
           <td><%= @bug.status %></td>
         </tr>
       </tbody>
